@@ -5,7 +5,7 @@ import cors from "cors"
 import { registerValidator,loginValidator } from "./validations/user.js"
 import { checkToken } from './middlewares/checkAuth.js';
 import { register, login, getCurrent } from "./controllers/auth.js";
-import { createPost, removePost, updatePost, getAllPosts, getPostsById,uploadImage } from './controllers/postController.js';
+import { createPost, removePost, updatePost, getAllPosts, getPostsById, uploadImage, removeImage } from './controllers/postController.js';
 import { postCreateValidation, postUpdateValidation } from './validations/post.js';
 
 import multer from "multer";
@@ -31,12 +31,14 @@ const upload = multer({ storage });
 app.use(cors())
 app.use(express.json());
 app.use('/uploads',express.static('uploads'));
+// app.use(express.static('public-images'));
 
 app.post('/auth/register', registerValidator, handleValidationError,register);
 app.post('/auth/login', loginValidator,handleValidationError, login);
 app.get('/auth/me', checkToken, getCurrent);
 
-app.post('/uploads', checkToken, upload.single('imageURL'), uploadImage);
+app.post('/uploads/image', checkToken, upload.single('imageURL'), uploadImage);
+app.patch('/uploads/image', checkToken, removeImage);
 
 app.post('/posts', checkToken, postCreateValidation, handleValidationError, createPost);
 app.delete('/posts/:postId', checkToken, removePost);
@@ -44,4 +46,4 @@ app.patch('/posts/:postId', checkToken, postUpdateValidation, handleValidationEr
 app.get('/posts',  getAllPosts);
 app.get('/posts/:postId',  getPostsById);
 
-app.listen(PORT, (err) => { err ? console.log(err) : console.log(`server running on port ${PORT}`) });
+app.listen(4444, (err) => { err ? console.log(err) : console.log(`server running on port ${PORT}`) });
