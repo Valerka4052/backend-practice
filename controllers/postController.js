@@ -2,10 +2,10 @@ import Post from "../models/post.js";
 import path from 'path'
 import fs from 'fs/promises';
 import Jimp from 'jimp';
-import shortid from 'shortid'
+// import shortid from 'shortid'
 
-import { URL } from 'url';
-const __dirname = new URL('.', import.meta.url).pathname;
+// import { URL } from 'url';
+// const __dirname = new URL('.', import.meta.url).pathname;
 
 export const createPost = async (req, res) => {
     try {
@@ -66,7 +66,10 @@ export const getPostsById = async (req, res) => {
 };
 export const removeImage = async (req, res) => {
     try {
-        console.log('req.body', req.body.image);
+        // console.log('req.body', req.body.image);
+        // const fullPath = path.join(__dirname, '../', req.body.image);
+        // console.log(fullPath);
+        await Post.findByIdAndUpdate(req.body.id, { imageUrl: null });
         await fs.unlink(req.body.image, (err) => {
             if (err) console.log(err);  
             else console.log(`${req.body} was deleted`);
