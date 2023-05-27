@@ -80,6 +80,6 @@ export const removeImage = async (req, res) => {
     }
 };
 export const uploadImage = async (req, res) => {
-    await Jimp.read(req.file.path).then((img) => { return img.cover(400, 600).quality(60).writeAsync(req.file.path) });
+    await Jimp.read(req.file.path).then((img) => { return img.cover(600, 400).quality(60).writeAsync(req.file.path) });
     res.status(200).json(req.file.path);
 };
