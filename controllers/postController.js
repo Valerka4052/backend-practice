@@ -66,17 +66,17 @@ export const getPostsById = async (req, res) => {
 };
 export const removeImage = async (req, res) => {
     try {
-        console.log('req.body',req.body);
+        console.log('req.body', req.body.image);
         await fs.unlink(req.body.image, (err) => {
-  if (err) console.log(err); // если возникла ошибка    
-  else console.log(`${req.body} was deleted`);
-});
+            if (err) console.log(err);  
+            else console.log(`${req.body} was deleted`);
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json('failure upload image');
     }
 };
 export const uploadImage = async (req, res) => {
-    await Jimp.read(req.file.path).then((img)=>{return img.cover(400, 600).quality(60).writeAsync(req.file.path)});
+    await Jimp.read(req.file.path).then((img) => { return img.cover(400, 600).quality(60).writeAsync(req.file.path) });
     res.status(200).json(req.file.path);
 };
