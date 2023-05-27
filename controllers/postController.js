@@ -69,9 +69,9 @@ export const removeImage = async (req, res) => {
         // console.log('req.body', req.body.image);
         // const fullPath = path.join(__dirname, '../', req.body.image);
         // console.log(fullPath);
-        await Post.findByIdAndUpdate(req.body.id, { imageUrl: null });
+        if (req.body.id) await Post.findByIdAndUpdate(req.body.id, { imageUrl: null });
         await fs.unlink(req.body.image, (err) => {
-            if (err) console.log(err);  
+            if (err) console.log(err);
             else console.log(`${req.body} was deleted`);
         });
     } catch (error) {
