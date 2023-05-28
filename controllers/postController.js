@@ -52,7 +52,7 @@ export const getAllPosts = async (req, res) => {
     try {
         const postCount = await Post.countDocuments({});
         const allPosts = await Post.find().skip(skip).limit(limit).populate('user').exec();
-        res.status(200).json({ ...allPosts, count: postCount });
+        res.status(200).json({ data:allPosts, count: postCount });
     } catch (error) {
         console.log(error);
         res.status(500).json('failure to get posts');
