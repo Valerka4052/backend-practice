@@ -46,8 +46,9 @@ export const updatePost = async (req, res) => {
 };
 
 export const getAllPosts = async (req, res) => {
-     const { page = 1, limit = 4 } = req.query;
-    const skip = (page - 1);
+    const { page = 1, limit = 4 } = req.query;
+    
+    const skip = (page - 1) * limit;
     try {
         const allPosts = await Post.find().skip(skip).limit(limit).populate('user').exec();
         res.status(200).json(allPosts);
