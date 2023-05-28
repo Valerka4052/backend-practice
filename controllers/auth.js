@@ -12,7 +12,7 @@ export const register = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, 7);
         const newUser = await User.create({ email, passwordHash, fullName });
         const token = jwt.sign({ _id: newUser._id }, SECRET_KEY, { expiresIn: "24h" });
-        res.status(201).json({ status: 'sucsess', email: newUser.email, name: newUser.fullName, token,id:user._id });
+        res.status(201).json({ status: 'sucsess', email: newUser.email, fullName: newUser.fullName, token,id:user._id });
     } catch (error) {
         console.log(error);
         res.status(500).json('register is not sucsess');
@@ -27,7 +27,7 @@ export const login = async (req, res) => {
         const validatedPassword = await bcrypt.compare(password, user.passwordHash);
         if (!validatedPassword) return res.status(404).json({ message: 'email or password is wrong' });
         const token = jwt.sign({ _id: user._id }, SECRET_KEY, { expiresIn: "24h" });
-        res.status(201).json({ status: 'sucsess', email: user.email,id:user._id, name: user.fullName, token });
+        res.status(201).json({ status: 'sucsess', email: user.email,id:user._id, fullName: user.fullName, token });
     } catch (error) {
         console.log(error);
         res.status(500).json('register is not sucsess');
@@ -39,7 +39,7 @@ export const getCurrent = async (req, res) => {
         if(!req.user)res.json('user not found')
         const user = await User.findById(req.user._id);
         if (!user) return res.status(404).json({ message: 'user not found' });
-        res.status(200).json({ email: user.email, fullName: user.fullName ,id:user._id});
+        res.status(200).json({ email: user.email, fullName: user.fullName, id: user._id });
     } catch (error) {
         console.log(error);
         res.status(500).json('register is not sucsess');
