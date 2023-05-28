@@ -50,8 +50,9 @@ export const getAllPosts = async (req, res) => {
     
     const skip = (page - 1) * limit;
     try {
-        const allPosts = await Post.find().skip(skip).limit(limit).populate('user').exec();
-        res.status(200).json(allPosts);
+        const postCount = await (await Post.find()).length
+        const allPosts = await (await Post.find()).skip(skip).limit(limit).populate('user').exec();
+        res.status(200).json({ ...allPosts, contOfposts: postCount });
     } catch (error) {
         console.log(error);
         res.status(500).json('failure to get posts');
